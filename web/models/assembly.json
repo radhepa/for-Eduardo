@@ -1,0 +1,242 @@
+{
+ "units": "mm",
+ "params": {
+  "W": 96,
+  "D": 70,
+  "H": 78,
+  "RV": 14,
+  "RT": 5,
+  "T": 2.4,
+  "FLOOR": 3,
+  "FIT": 0.3,
+  "WIN_W": 25,
+  "WIN_H": 14,
+  "WIN_Z": 56,
+  "WIN_R": 1.5,
+  "OLED_PCB": 28.4,
+  "OLED_POCKET_DEPTH": 4,
+  "OLED_OFFSET_Z": 0,
+  "LED_Z": 36,
+  "LED_D": 5.2,
+  "GRILL_Z": 20,
+  "GRILL_R": 10,
+  "GRILL_HOLE": 2,
+  "GRILL_PITCH": 3.6,
+  "BUZZER_D": 12.4,
+  "BUZZER_CUP": 5,
+  "PERCH_D": 16.2,
+  "PERCH_Y": 6,
+  "TUFT_X": -26,
+  "TUFT_Y": -14,
+  "TUFT_SLOT": [
+   12,
+   3.2
+  ],
+  "PIN_Y": 0,
+  "PIN_Z": 56,
+  "PIN_D": 2.2,
+  "BOARD_X": -20,
+  "BOARD_W": 25.4,
+  "BOARD_L": 57,
+  "USB_Z": 8,
+  "USB_W": 13,
+  "USB_H": 9,
+  "BATT": [
+   34,
+   50,
+   10
+  ],
+  "BATT_X": 17,
+  "POST_D": 8,
+  "POST_HOLE": 2.6,
+  "POST_TOP": 15,
+  "CSK_D": 5.6
+ },
+ "parts": [
+  {
+   "id": "shell",
+   "name": "Shell",
+   "file": "models/shell.json",
+   "color": "#24262f",
+   "explode": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "id": "floor",
+   "name": "Floor plate",
+   "file": "models/floor.json",
+   "color": "#3a3d48",
+   "explode": [
+    0,
+    0,
+    -38
+   ]
+  },
+  {
+   "id": "foot-1",
+   "name": "Crow foot",
+   "file": "models/foot-1.json",
+   "color": "#ffad3b",
+   "explode": [
+    0,
+    0,
+    -60
+   ]
+  },
+  {
+   "id": "foot-2",
+   "name": "Crow foot",
+   "file": "models/foot-2.json",
+   "color": "#ffad3b",
+   "explode": [
+    0,
+    0,
+    -60
+   ]
+  },
+  {
+   "id": "tuft",
+   "name": "Tuft",
+   "file": "models/tuft.json",
+   "color": "#24262f",
+   "explode": [
+    0,
+    0,
+    30
+   ]
+  }
+ ],
+ "components": [
+  {
+   "name": "OLED module",
+   "min": [
+    -13.7,
+    -32.4,
+    42.1
+   ],
+   "max": [
+    13.7,
+    -29.8,
+    69.9
+   ],
+   "color": "#2a6cf0"
+  },
+  {
+   "name": "OLED header + jumpers",
+   "min": [
+    -6,
+    -29.8,
+    65
+   ],
+   "max": [
+    6,
+    -16.6,
+    70
+   ],
+   "color": "#7b8494"
+  },
+  {
+   "name": "ESP32 board",
+   "min": [
+    -32.7,
+    -25.9,
+    5
+   ],
+   "max": [
+    -7.300000000000001,
+    31.1,
+    9.8
+   ],
+   "color": "#1f8a5b"
+  },
+  {
+   "name": "LiPo 2000 mAh",
+   "min": [
+    0,
+    -25,
+    3
+   ],
+   "max": [
+    34,
+    25,
+    13
+   ],
+   "color": "#c9ced8"
+  },
+  {
+   "name": "DS3231 RTC",
+   "min": [
+    -45,
+    -19,
+    23.2
+   ],
+   "max": [
+    -31,
+    19,
+    45.2
+   ],
+   "color": "#8a3fd1"
+  },
+  {
+   "name": "Buzzer",
+   "min": [
+    -6,
+    -32.300000000000004,
+    14
+   ],
+   "max": [
+    6,
+    -22.8,
+    26
+   ],
+   "color": "#d94a3a"
+  },
+  {
+   "name": "Perch button body",
+   "min": [
+    -10,
+    -4,
+    49.599999999999994
+   ],
+   "max": [
+    10,
+    16,
+    75.6
+   ],
+   "color": "#d6a440"
+  },
+  {
+   "name": "SOS tact switch",
+   "min": [
+    40.6,
+    -3,
+    53
+   ],
+   "max": [
+    45.6,
+    3,
+    59
+   ],
+   "color": "#e0e0e0"
+  },
+  {
+   "name": "Rage LED",
+   "min": [
+    -2.6,
+    -32.6,
+    33.4
+   ],
+   "max": [
+    2.6,
+    -23.6,
+    38.6
+   ],
+   "color": "#ff3b2a"
+  }
+ ],
+ "fit": [],
+ "filamentGrams": 117
+}

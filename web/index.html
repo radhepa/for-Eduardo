@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crow Alarm Clock</title>
+<meta name="description" content="Crow is an alarm clock that rings until its app proves you solved a puzzle. Delete the app and it keeps ringing.">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Big+Shoulders+Display:wght@600;800;900&family=VT323&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <div class="mast-brand">
+      <span class="mast-mark" id="mastMark"></span>
+      <div>
+        <h1 class="wordmark">Crow</h1>
+        <p class="mast-tag">The alarm clock you can't snooze, unplug, or uninstall your way out of.</p>
+      </div>
+    </div>
+    <ul class="mast-facts" aria-label="Key facts">
+      <li><b>0</b><span>snooze buttons</span></li>
+      <li><b>4</b><span>levels of caw</span></li>
+      <li><b>1</b><span>key, on your phone</span></li>
+    </ul>
+  </header>
+
+  <section class="stage" id="demo" aria-label="Live simulator">
+    <div class="stage-grid">
+      <div class="stage-clock">
+        <div class="device" id="device" data-state="IDLE" data-level="0">
+          <div class="dv-waves" aria-hidden="true"><i></i><i></i><i></i></div>
+          <button type="button" class="dv-perch" id="perch" aria-label="Perch button. Tap to wake the screen. Hold 3 seconds to pair.">
+            <span class="dv-hold" id="perchHold"></span>
+          </button>
+          <div class="dv-tuft" aria-hidden="true"></div>
+          <div class="dv-body">
+            <div class="dv-screen"><canvas id="oled" width="128" height="64" aria-label="Clock display"></canvas></div>
+            <span class="dv-led" id="led" aria-hidden="true"></span>
+            <div class="dv-grill" aria-hidden="true"></div>
+            <button type="button" class="dv-pin" id="pinhole" aria-label="SOS pinhole. Hold 8 seconds while it rings to start the count-off.">
+              <span class="dv-hold" id="pinHold"></span>
+            </button>
+          </div>
+          <div class="dv-feet" aria-hidden="true"><i></i><i></i></div>
+          <div class="dv-cable" id="cable" aria-hidden="true"></div>
+        </div>
+        <p class="stage-cap"><b>The clock.</b> Alarms live here. Tap the perch on top to light the screen, hold it 3&nbsp;s to pair. Hold the SOS pin on its side 8&nbsp;s while it rings.</p>
+      </div>
+
+      <div class="stage-phone">
+        <div class="phone" id="phone">
+          <div class="ph-screen">
+            <div class="ph-status"><span id="phTime">7:00</span><span class="ph-island"></span><span class="ph-icons" id="phIcons">●●● 82%</span></div>
+            <div class="ph-view">
+              <div class="ph-home" id="phHome"></div>
+              <div class="ph-store" id="phStore" hidden></div>
+              <div class="ph-app" id="phApp" hidden></div>
+            </div>
+            <button type="button" class="ph-notif" id="phNotif" hidden></button>
+            <div class="ph-sheet" id="phSheet" hidden></div>
+            <button type="button" class="ph-homebar" id="phHomebar" aria-label="Go to the home screen"></button>
+          </div>
+        </div>
+        <p class="stage-cap"><b>The app.</b> The only key. Long-press its icon to delete it and see what the clock thinks of that.</p>
+      </div>
+
+      <aside class="stage-panel" aria-label="Simulator controls">
+        <div class="pn-block">
+          <h2 class="pn-h">Start from</h2>
+          <div class="pn-seg" id="scenarios">
+            <button type="button" data-sc="morning" class="on">Alarm in 20 s</button>
+            <button type="button" data-sc="deleted">App deleted</button>
+            <button type="button" data-sc="fresh">Unboxing</button>
+          </div>
+        </div>
+        <div class="pn-block">
+          <div class="pn-clock"><span id="simDay">Thu</span><b id="simTime">6:59:40</b><span id="simAmpm">AM</span></div>
+          <div class="pn-row">
+            <button type="button" class="pn-btn" id="playBtn" aria-label="Pause">❚❚</button>
+            <div class="pn-seg small" id="speeds" role="group" aria-label="Time speed">
+              <button type="button" data-speed="1" class="on">1×</button>
+              <button type="button" data-speed="10">10×</button>
+              <button type="button" data-speed="60">60×</button>
+            </div>
+          </div>
+          <div class="pn-row">
+            <button type="button" class="pn-btn wide" id="skipBtn">Skip to 10 s before the alarm</button>
+          </div>
+          <div class="pn-row">
+            <button type="button" class="pn-btn wide" id="dayBtn">Skip a day</button>
+          </div>
+        </div>
+        <div class="pn-block">
+          <h2 class="pn-h">Mess with it</h2>
+          <label class="pn-toggle"><input type="checkbox" id="usbToggle" checked><span></span>Clock plugged in</label>
+          <label class="pn-toggle"><input type="checkbox" id="appToggle" checked><span></span>App installed</label>
+          <label class="pn-toggle"><input type="checkbox" id="soundToggle" checked><span></span>Sound</label>
+        </div>
+        <div class="pn-block pn-logwrap">
+          <h2 class="pn-h">What's happening</h2>
+          <ol class="pn-log" id="log" aria-live="polite"></ol>
+        </div>
+      </aside>
+    </div>
+    <div class="stage-start" id="startOverlay">
+      <button type="button" class="start-btn" id="startBtn"><span>▶</span> Start the morning</button>
+      <p>It's 6:59:40. The alarm is set for 7:00. Sound on, volume moderate.</p>
+    </div>
+  </section>
+
+  <section class="sec how" id="how">
+    <h2 class="sec-h">How it works</h2>
+    <div class="how-grid">
+      <article>
+        <h3>The clock rings, not the phone.</h3>
+        <p>Alarms are stored on the clock and it rings on its own. Your phone can be dead, muted, or across the room. It has a battery inside, so pulling the plug sends it straight to full volume.</p>
+      </article>
+      <article>
+        <h3>The app is the only key.</h3>
+        <p>When it rings, the clock makes up a fresh random challenge. Only the paired app can answer it, and only after you solve its puzzles. The answer is an HMAC proof, so a replay or a fake app gets nowhere.</p>
+      </article>
+      <article>
+        <h3>Delete the app, it keeps ringing.</h3>
+        <p>The key lives in the app's storage. Delete the app and the key is gone, but the alarms are not. To shut it up you reinstall, hold the perch to re-pair, and pay a penalty round. The clock logs it as a betrayal.</p>
+      </article>
+      <article>
+        <h3>Prove you're actually up.</h3>
+        <p>Five minutes after you silence it, the crow chirps for a wake check. Miss it and the whole thing starts over, louder. If your phone is lost, an SOS pin on the clock gives you a slow, awake-only way out.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec rules" id="rules">
+    <h2 class="sec-h">The rules, in numbers</h2>
+    <div class="table-wrap">
+      <table class="rules-table">
+        <thead><tr><th scope="col">What</th><th scope="col">When</th><th scope="col">What happens</th></tr></thead>
+        <tbody>
+          <tr><td>Level 1</td><td class="num">0 s</td><td>Two short chirps every 4 s. A gentle start.</td></tr>
+          <tr><td>Level 2</td><td class="num">30 s</td><td>Caw, caw. Every 2 s.</td></tr>
+          <tr><td>Level 3</td><td class="num">90 s</td><td>Four caws in a row, screen starts flashing.</td></tr>
+          <tr><td>Level 4</td><td class="num">180 s</td><td>Non-stop. Wrong answers and unplugging jump straight here.</td></tr>
+          <tr><td>Puzzles</td><td class="num">2 per alarm</td><td>Adjustable 1–4. Penalty rounds add 2 more.</td></tr>
+          <tr><td>Wake check</td><td class="num">+5 min</td><td>Chirps. You get 2 min to tap the crow three times, or it rings again.</td></tr>
+          <tr><td>Orphan</td><td class="num">24 h</td><td>No check-in from the app in a day means you deleted it. Next alarm starts at level 3 with a penalty.</td></tr>
+          <tr><td>Re-pair mid-ring</td><td class="num">+2 puzzles</td><td>Old key dies, betrayal counter goes up. Forever.</td></tr>
+          <tr><td>SOS pin</td><td class="num">8 s hold</td><td>Five rounds: count the beeps, press the perch that many times. One mistake and it's level 4.</td></tr>
+          <tr><td>Mercy limit</td><td class="num">45 min</td><td>It gives up and logs a shame. Adjustable 15–120 min, never off. Neighbors exist.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec hardware" id="hardware">
+    <h2 class="sec-h">The hardware</h2>
+    <div class="hw-grid">
+      <div class="viewer" id="viewer">
+        <canvas id="viewerCanvas" aria-label="3D model of the Crow enclosure. Drag to turn it."></canvas>
+        <div class="viewer-ui">
+          <label class="vw-slider" for="explode">Explode <input type="range" id="explode" min="0" max="100" value="0"></label>
+          <label class="pn-toggle small"><input type="checkbox" id="showGuts" checked><span></span>Electronics</label>
+        </div>
+        <p class="viewer-msg" id="viewerMsg">Loading the model…</p>
+      </div>
+      <div class="hw-text">
+        <p class="hw-lede">An ESP32, a small OLED for the face, a battery-backed real-time clock, a loud buzzer, and two buttons, in a 3D-printed body about the size of a coffee mug.</p>
+        <div class="table-wrap">
+          <table class="bom">
+            <thead><tr><th scope="col">Part</th><th scope="col">Job</th><th scope="col" class="num">≈ USD</th></tr></thead>
+            <tbody>
+              <tr><td>ESP32 board with LiPo charger (LOLIN D32 or similar)</td><td>Brain, Bluetooth, charging</td><td class="num">8</td></tr>
+              <tr><td>0.96″ SSD1306 OLED, I²C</td><td>The face</td><td class="num">4</td></tr>
+              <tr><td>DS3231 RTC module + coin cell</td><td>Keeps time through power cuts</td><td class="num">3</td></tr>
+              <tr><td>12 mm passive buzzer + NPN transistor</td><td>The caw</td><td class="num">1</td></tr>
+              <tr><td>2000 mAh LiPo (JST-PH)</td><td>Rings through unplugging</td><td class="num">7</td></tr>
+              <tr><td>16 mm momentary button</td><td>The perch</td><td class="num">2</td></tr>
+              <tr><td>6×6 mm tact switch, 5 mm red LED, resistors</td><td>SOS pin, rage light, sensing</td><td class="num">1</td></tr>
+              <tr><td>PETG filament (~120 g), 4× M3 screws, 2 rubber bumpers</td><td>Body, floor, feet, tuft</td><td class="num">3</td></tr>
+            </tbody>
+            <tfoot><tr><td colspan="2">Total, hobby prices</td><td class="num">≈ 29</td></tr></tfoot>
+          </table>
+        </div>
+        <p class="hw-files">Printable STL files, the parametric model, wiring and firmware are in the project folder: <code>Crow/cad</code>, <code>Crow/firmware</code>, <code>Crow/docs/HARDWARE.md</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span class="foot-mark" id="footMark"></span>
+    <p>Crow v1.0. Firmware, app, simulator and enclosure all in one folder. No account, no cloud, no snooze.</p>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script type="module" src="js/sim.js"></script>
+<script type="module" src="js/viewer.js"></script>
+</body>
+</html>

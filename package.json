@@ -1,0 +1,1 @@
+{"type":"module","private":true,"name":"crow","version":"1.0.0","scripts":{"test":"node tools/test.mjs","serve":"node tools/serve.mjs","cad":"node --stack-size=65500 cad/build.mjs"}}
